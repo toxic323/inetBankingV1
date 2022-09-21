@@ -1,0 +1,91 @@
+https://demo.guru99.com/V4/
+User ID :	mngr401326
+Password :	zazAsyh
+
+Jenkins
+toxic123
+barosz123
+toxicnoiz12345@interia.pl
+
+
+https://github.com/toxic323/inetBankingV1.git
+
+clear
+git init	->create an empty git repository (local!!!!!!!!!!)
+git remote add origin "https://github.com/toxic323/inetBankingV1.git" -> add remote respository to github`
+git config --global user.name "bartek"  -> set name
+git config --global user.email "toxicnoiz12345@interia.pl" -> set email
+git push [np. origin] --delete [nazwa brancha] -> delete remote branch 
+
+git branch      	->list out branch
+git branch <nazwa> 	-> create a new branch 
+git checkout <nazwa_brancha>  ->switch a branch
+git checkout -b <nazwa_brancha>  ->robi brancha z aktualnego stanu plikow i przelacza na niego
+
+git status 	->what are files ready to commit in git repository
+git log 			-> historia commitów (wyjscie q)
+git log --oneline               -> oneline
+
+git add -A     			 -> add all files into STAGE
+git commit -m "xxx"       	 ->commit to local repository, -m (to message) ; -am (robi add i potem message do commita)
+git push -u [origin] [master]	->pushing files git-------->github  ;
+git pull [origin] [master]	->pulling files github-------->git
+git merge [branchname]          -> robiby heada na brancha DO KTREGO chcemy dołaczyć
+git reset --hard [commit hash]   -> usuna wszystko powyzej commit hash !!!!!!!! BEZPOWROTNIE !!!!!!!!!!!!!
+git revert                     ->cofasz do danego commita, jednoczesnie wykonujac commita
+git clone [link] 		-> klonujesz repozytorium
+git pull --rebase 		->zaciagamy aktualne repo ( jak mamy committy niespushowane jeszcze , to beda na gorze)
+
+Jezeli chce dodac nowego brancha z kodem do githuba to [remote add <nazwabrancha> "https..."] i potem [push]
+przelaczajac sie pomiedzy branchami zmienia mi sie aktualny stan plików
+
+
+.gitignore - pliki ktore ma ignorowac git
+
+1user wprowadza commit i pushuje
+2user wprowadza commit i chce push, ale wyskakuje mu ze w remote sa jakies zmiany, ktorych nie ma lokalnie i musi zrobic pull
+2user robi pull, ale wyskakuje mu ze ma conflict 
+
+
+
+
+
+SQL
+
+INSERT INTO Customers (CustomerName, ContactName) VALUES 
+('Cardinal', 'Tom B. Erichsen'), 
+('Skagen 21', 'Stavanger'),
+('Cardinal', 'Tom B. Erichsen');
+
+UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
+
+DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+
+SELECT COUNT(username) FROM Customers;	
+SELECT MIN(year_of_birth) FROM Customers;
+SELECT MAX(year_of_birth) FROM Customers;
+SELECT SUM(year_of_birth) FROM Customers;	
+SELECT AVG(year_of_birth) FROM Customers;				
+SELECT username AS imie FROM Customers WHERE year_of_birth = 1988 OR year_of_birth = 1989;
+SELECT username FROM Customers WHERE year_of_birth = 1988 AND display_name = 'Adam';
+SELECT username FROM Customers WHERE year_of_birth IS NOT NULL;                
+SELECT username FROM Customers WHERE year_of_birth IN (1992,1995,1972);       The IN operator is a shorthand for multiple OR conditions.
+SELECT username FROM Customers WHERE year_of_birth BETWEEN 1980 AND 1990;
+SELECT username FROM Customers WHERE username LIKE '%am%'
+SELECT username FROM Customers WHERE username NOT LIKE 'k%'
+SELECT username FROM Customers WHERE username LIKE '2_%' 	               Finds any values that start with "2" and are at least 2 characters in length
+
+SELECT DISTINCT year_of_birth FROM Customers 
+WHERE year_of_birth IS NOT NULL 
+ORDER BY year_of_birth DESC/ASC
+LIMIT 0,5;
+
+SELECT * FROM Customers WHERE CustomerID =
+(SELECT CustomerID FROM Orders WHERE OrderDate = '1996-09-18')
+
+SELECT * FROM Customers
+JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+
+SELECT ShipperID, Count(CustomerID) from Orders 
+GROUP BY ShipperID
+HAVING Count(CustomerID)>60
