@@ -20,6 +20,7 @@ git branch      	->list out branch
 git branch <nazwa> 	-> create a new branch 
 git checkout <nazwa_brancha>  ->switch a branch
 git checkout -b <nazwa_brancha>  ->robi brancha z aktualnego stanu plikow i przelacza na niego
+git branch -d <nazwa brancha> - usuwanie brancha
 
 git status 	->what are files ready to commit in git repository
 git log 			-> historia commitów (wyjscie q)
@@ -59,6 +60,9 @@ INSERT INTO Customers (CustomerName, ContactName) VALUES
 UPDATE Customers SET ContactName = 'Alfred Schmidt', City= 'Frankfurt' WHERE CustomerID = 1;
 
 DELETE FROM Customers WHERE CustomerName='Alfreds Futterkiste';
+DELETE FROM Customers;
+
+DROP TABLE Customers;
 
 SELECT COUNT(username) FROM Customers;	
 SELECT MIN(year_of_birth) FROM Customers;
@@ -70,9 +74,11 @@ SELECT username FROM Customers WHERE year_of_birth = 1988 AND display_name = 'Ad
 SELECT username FROM Customers WHERE year_of_birth IS NOT NULL;                
 SELECT username FROM Customers WHERE year_of_birth IN (1992,1995,1972);       The IN operator is a shorthand for multiple OR conditions.
 SELECT username FROM Customers WHERE year_of_birth BETWEEN 1980 AND 1990;
-SELECT username FROM Customers WHERE username LIKE '%am%'
-SELECT username FROM Customers WHERE username NOT LIKE 'k%'
-SELECT username FROM Customers WHERE username LIKE '2_%' 	               Finds any values that start with "2" and are at least 2 characters in length
+SELECT username FROM Customers WHERE username LIKE '%am%'               	%oznacza cokolwiek(bez znaczenia ilosc znakow)
+SELECT username FROM Customers WHERE username NOT LIKE 'k%'				'a%o' oznacza zaczyna sie na 'a' i koniczy sie na 'o'
+SELECT username FROM Customers WHERE username LIKE '2__%' 	               Finds any values that start with "2" and are at least 3,
+SELECT TOP 2 * FROM Customers ORDERY BY Liczbapunktów DESC       2 klintów o najwyzszej licznie punktów
+
 
 SELECT DISTINCT year_of_birth FROM Customers 
 WHERE year_of_birth IS NOT NULL 
@@ -86,5 +92,338 @@ SELECT * FROM Customers
 JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
 
 SELECT ShipperID, Count(CustomerID) from Orders 
-GROUP BY ShipperID
+GROUP BY ShipperID                                         //zrób grupy dla konkretnego ShipperID
 HAVING Count(CustomerID)>60
+
+GROUP BY - czyli zgrupuj po, najczesciej sie stosuje przy funkcach agregujacych jak np COUNT.
+HAVING - filtrowanie w grupach, WHERE filtruj w wierszach
+
+###################################SOAP/REST#############################################
+http://216.10.245.166:8080/axis2/services/EmployeeManagementService?wsdl
+
+SOAP(The Simple Object Access Protocol) - jest standardem w jakim porozumiewają sie serwisy miedzy sobą. W postaci XML.Najczęsciej do transportu uzywa HTTP. Niezalezne od jezyka programowania.
+Wiadomosc SOAP składa się z Envelope, Header(optional), Body
+
+WSDL(Webservice Description Language)- opisuje dany webservice. zawiera info o mozliwych operacjach, typach danych itd. WSDL to menu w restauracji, a SOAP to rozmowa(zamawianie).
+
+
+W SOAPUI klikajac na project tworzymy TestSuite, potem dodajemy TCsa i w Test Steps tworzymy juz SOAP request. Klikajać PLUSIK mozemy dodac assertions
+Mozemy odpalić strzaleczka calego TestSuite
+
+Assertion Contains - czy tekst zawarty w respone
+Assertion Not Contain - czy tekst nie zawarty w response
+Assertion SOAP response - sprawdza czy odp zgodna z formatem SOAP
+Assertion Valid HTTP Status Codes - podajesz np "200", sprawdza czy faktycznie 200 OK jest
+Assertion Response SLA - max czas w jakim ma sie wykonać 
+Assertion Sensitive Information Exposure - sprawdza czy jakis token wazny nie wyciekł
+
+Assertion Xpath Match - expected result - wartosc, w Xpath Expression klikamy declare, zeby pobrac namespaces
+np: //ns:getEmployeeDetailsResponse/ns:return/ns:age - mozemy kliknac "Select from current"
+po "//" dajemy node czyli np //ns:age
+exists(//ns:age), w expected dajemy true - sprawdzamy czy node istnieje
+count(//ns:name), w expected dajemy 1 - sprawdzamy czy tylko 1 node istnieje
+"Select from current" -> zaznaczamy Allow Wildcards i daną wartość zamieniamy na *(gwiazdkę) - oznacza to ze pod gwiazdką moze byc cokolwiek a i tak bedzie PASS 
+
+
+Properties pointer syntax: ${#TestSuite#Name} ; ${#TestCase#age} ; ${#Project#id} ; ${nazwaProperties#namefromproperties}!!!! (nie ma hasha, bo to nie jest slowo KLUCZOWE z soapUI)
+
+prawym przyciskiem i get data i wtedy mozemy wstawic pointer ktory zaczytuje properties
+
+Test case -> Custom propierties -> plusik i dodajemy properties z poziomu TCsa, podobnie z poziomu test suite itd
+
+mozna tez wczytac properties wchodzac np w testsuite -> Custom properties -> load from external file, musi byc rozszerzenie xxxx.properties format:
+id=123
+department=it
+
+PROPERTIES transfer: 
+dodajemy "property transfer" do Test Step, source:skad chcemy, property: response
+Source -> potem deklarujemy namespace
+//ns:name/text() <- pobieramy value (tekst)
+Target -> property: request
+//typ:employeeName
+
+zaczytanie properties z requesta/respona z innego test step:
+<typ:employeeName>${add#Request#//typ:addEmployee/typ:name/text()</typ:employeeName> - add to nazwa teststepsa, zauwaz ze nie ma # !!
+
+AUTOMATION SOAP
+w test steps dodajemy groovy script
+context variable- zasieg tylko w tcsie
+testRunner pozwala na dostep do zmiennych w calym projekcie
+log.info "this is my first program" - wyswietlanie w konsolli
+
+//zczytywanie i ustawianie 
+context.expand('${#TestCase#name}'} - pobranie wartosci z properties
+log.info testRunner.testCase.getPropertyValue("department") - wzieta wartosc z TCsa w ktorym jest skrypt
+testRunner.testCase.testSuite.testCases['getEmployee'].getPropertyValue("id") - wchodzimy wyzej do testcase, potem wyzej do testsuite i bierzemy z niego testcase getEmployee
+testRunner.testCase.testSuite.testCases['addEmployee'].setPropertyValue("age","123") - ustawiamy
+testRunner.testCase.testSuite.project.getPropertyValue("projectVersion")
+
+//Podmiana request zapytaniu SOAP, aby pozniej go uruchomic
+import com.eviware.soapui.support.XmlHolder
+import com.eviware.soapui.impl.wsdl.testcase.WsdlTestRunContext
+def name = testRunner.testCase.testSuite.testCases['addEmployee'].getPropertyValue("name")
+def addreq= testRunner.testCase.TestSuite.testCases['addEmployee'].testSteps['add'].getPropertyValue("Request") 
+def xmlAdd = new XmlHolder(addReq)
+xmlAdd.setNodeValue("//typ:addEmployee/typ:name", name)
+def finalXML= xmlAdd.getXml()
+testRunner.TestCase.TestSuite.testCases["addEmployee"].testSteps["add"].setPropertyValue("Request",finalXML)
+
+//uruchomienie innego TCsa ze skryptu groovy
+def addTestStep = testRunner.testCase.TestSuite.testCases['addEmployee'].testSteps['add']
+def contextAddEmployee = new WsdlTestRunContext(addTestStep)
+addTestStep.run(testRunner, contextAddEmployee)
+
+//weryfikacja czy dodany pracownik moze byc znaleziony przez get
+def getResponse=  testRunner.testCase.testSuite.testCases["getEmployee"].testSteps["get"].getPropertyValue("Response")
+def getResponseXml = new XmlHolder(getResponse)
+def nameOfGetResponse = getResponseXml.getNodeValue("//ns:name")
+assert nameOfGetResponse == name          (name to byla zmienna podawana przy addEmployee)
+
+REST
+endpoint - adres, gdzie hostowane jest API
+resource map i search:  BaseURL/resource/QueryOrPath_Parameters   www.google.com/search , www.google.com/map
+
+GET -pobieranie zasobu lub jego wyświetlenie, np. wyświetlenie formularza lub strony
+Pobierania zasobu z określonego adresu.Parametry można przekazywac jedynie poprzez adres (np. ?nazwa=wartosc&nazwa2=wartosc2)
+Request body-NIEDOZWOLONE
+
+POST- uzywany do wysłania danych zapisanych jako pary klucz-wartość do serwera. Metoda ta pozwala przesyłać także pliki.
+Parametry są przekazywane w ciele zapytania, można także przekazywać parametry poprzez adres (tak jak w metodzie GET)
+Request body-OPCJONALNIE 
+
+PUT- służy do zachowania obiektu przekazywanego w treści zapytania pod wskazanym adresem URL/zastępuje dany zasób
+Request body-OPCJONALNIE 
+
+DELETE- usuwa zbiór z podanego URLa
+Request body-OPCJONALNIE 
+
+
+The difference between POST and PUT is that PUT requests are idempotent. That is, calling the same PUT request multiple times will always produce the same result. In contrast, calling a POST request repeatedly have side effects of creating the same resource multiple times.
+path parameter- parametr zawarty w URL. oddzielony od niego:  "/", a od qury parameter oddzielony "?". 
+path parameter definiuje lokalizację resourca
+query parameter-parametr uzywany do sortowania/filtrowania resourca
+
+HEAD pobiera informacje o zasobie, stosowane do sprawdzania dostępności zasobu
+OPTIONS informacje o opcjach i wymaganiach istniejących w kanale komunikacyjnym
+TRACE diagnostyka, analiza kanału komunikacyjnego
+CONNECT żądanie przeznaczone dla serwerów pośredniczących pełniących funkcje tunelowania
+PATCH aktualizacja części danych
+
+na poczatku robię sobie różne resource i wtedy robie sobie Test suite
+Assertions wazne:
+-Contains
+-JSONPath existense match - np czy istnieje: "place_id" ,
+-Valid HTTP Status Codes - np podajemy "200"
+-JSON count - podajemy path i expected(ilosc)
+-script assertion:
+{
+import groovy.json.JsonSlurper
+def response = messageExchange.response.responseContent
+def json = new JsonSlurper()
+def jsonParser = json.parseText(response)
+log.info jsonParser.place_id
+assert jsonParser.status == "OK"
+}
+context.getTestCase().setPropertyValue("place_id","123321") - ustawianie properties na poziomie test case
+
+mozemy w request body uzyć np:
+{
+    "place_id":"${#TestCase#place_id}"
+}
+
+
+JSON validations:
+[] <- arrays 
+{} <- objects
+jest cos takiego jak json editor online(wpisac w google)
+
+JSONpath match validation:
+photos.perpage -> i w expected: 100
+photos.photo[4].owner -> i w expected stringa
+photos.photo[?(@.id == '52508613190')].title <- bierzemy title z obiktu o id xx ,[?(expression)], @ represents the current array item or object being processed , [?(<expression>)] (https://docs.hevodata.com/sources/engg-analytics/streaming/rest-api/writing-jsonpath-expressions/)
+photos.photo[0].* <- wartosci z danego obiektu ( nie caly xml obiektu)
+
+photos.photo[0].debit , expected false <-JSONPath existense match, zeby sprawdzic czy istnieje(a np ma null) 
+
+-script assettion:
+import groovy.json.JsonSlurper
+boolean flag
+def response = messageExchange.response.responseContent
+def json = new JsonSlurper()
+def jsonParser = json.parseText(response)
+
+for(int i=0;i<jsonParser.size();i++){
+	if (jsonParser.isbn[i]=="kurdassa"){
+		flag=true;
+	}
+}
+assert flag==true
+
+Przyklad property transfer w REST:
+Source: nazwa requesta , Property: Response , Path: JSONPath
+photo.perpage
+Target: np. TestSuite , Property: Stworzone property na poziomie TestSuite, path:XPath
+NIC nie wpisujemy
+
+
+INTERVIEW QUESTIONS
+Webservice - aplikacja lub logika biznesowa do której jest dostep za pomocą protokołów internetowych jak np HTTP. Słuzy do wymiany danych pomiedzy np aplikacjami czy systemami. Pozwala komunikować się niezaleznie w jakim jezyku została napisala aplikacja (java js python czy cokolwiek)
+
+REST(Representational state transfer) API(Application Programming Interface) - Rest to styl architektoniczny. Uzywamy metod HTTP aby dobrać się do resources: 
+np GET POST PUT DELETE
+
+API vs Webservice - Kazdy Webservice to API, ale nie kazde API to webservice. Webservice potrzebuje dostepu do sieci(online). API moze być tez offline. Jak udostepnimy publicznie do internetu API, bedzie to webservice.
+
+WSDL- opisuje dany webservice. zawiera info o mozliwych operacjach, typach danych itd. WSDL to menu w restauracji, a SOAP to rozmowa(zamawianie).
+
+Endpoint - adres, gdzie hostowane jest API
+
+SOAPUI - Open source narzedzie do testowania API (SOAP i REST)
+
+Jak dostać sie do properties na poziome TC:
+-${#TestCase#Property_name}
+- w groovy script: TestRunner.TestCase.getPropertyValue(Property_name)
+- w assertion script: Context.getTestCase.getPropertyValue(Property_name)
+
+
+PropertyTransfer- pozwala na przenoszenie properties np z API response do API request
+
+Jakiego rodzaju skrypty sa wspierane przez SOAPUI - groovyScripting, javascript
+
+Jakie assertions wspiera soapui
+- xpath match, xquery match, contains, not contains, script assertions, http status code, Response SLA (czas), Security
+
+Jakie są obiekty/metody script assertions window ?
+Log, Context, messageExchange
+
+Gdzie uzywamy TestRunner?
+Za pomoca TestRunner mamy dostęp metod i properties z wszystkich leveli projektu: testcases,testsuites,project
+
+Jakie inputy i outpoty wspiera REST API
+XML i Json
+
+Czym jest Mocking?
+Mockowanie to symulowanie odpowiedzi jakiegoś serwisu, aby była zgodna z naszymi oczekiwaniami. Mozemy zmokować jakis serwis zeby przetestować jakiś inny, nad ktorym toczą sie ważne prace
+
+
+API documentation wazne, bo opisuje jaka Metoda HTTP zostala zaprojektowana dla danego API
+
+Techniki autentyfikacji w API:
+-Session/Cookie based authentication - na podstawie sesji, cookies
+-basic authentication - podawanie user i pasword normalnie
+-digest authentication
+-OAuth
+
+Dlaczego API testing jest uznawana za najbardziej pasującą do testowania automatycznego?
+-API testing jest "lekkie" nie potrzeba sie logowac przez frontend itd, zeby np dodac do bazy uzytkownika
+-Niezalezne jezykowo
+-oszczednosc czasu(brak Front endu)
+
+Co sprawdzamy podczas testowania  API ?
+-poprawnosc danych
+-Sprawdzamy czas odpowiedzi
+-sprawdzamy HTTP status code
+-sprawdzamy error code w przypadku blędu API
+-sprawdzamy autoryzacje
+-performance testing, security testing
+
+www.google.com/maps/123123?location=x.y
+-----endpoint-/--resource-?--query_parameter
+resource tak na prawde path parameter
+
+Jakie są komponenty HTTP request?
+-HTTP request method: POST PUT DELETE
+-Base Uniform Resource Identifier(URI) - endpoint, miejsce gdzie API jest hostowane
+-Resources i Parameters
+-Headers - pozwalaja zawrzec w requescie dodatkowe informacje jak np Content-Type itd.
+-Request body - to co chcemy przeslać, jakeis dane, wartosci 
+
+API testing vs UI testing
+w UI testach mamy frond end
+
+Czy mozna uzyc POST zamiast PUT ?
+TAK
+
+Czym jest Payload w REST Webservice?
+to inaczej request body, dane które dostarczamy(input data), najczesciej w postaci JSON
+
+Czym jest REST Assured? 
+Java library which can automate REST APIs
+
+Jak powinnisny zdefiniowac informacje o API w REST assured?
+all request details powinnismy zdefiniowac i wyslac do servera poprzez metody: GIVEN, WHEN, THEN
+
+JSON serialization w REST assured?
+Konwertowanie JAVA object do Request Body(Payload)
+
+JSON deserialization w REST assured?
+Konwertowanie Response body do JAVA object
+
+JSON parsing techniques w REST assured?
+-Json path
+-Deserialization of Json uzywajac POJO classes
+
+Jak wysłać załączniki do API uzywajac REST assured
+MultiPart method
+
+HTTP Response Codes
+kody informacyjne – zaczynające się od cyfry 1
+kody powodzenia – od cyfry 2
+kody przekierowania – od cyfry 3
+kody błędy aplikacji klienta – od cyfry 4
+kody błędu serwera – od cyfry 5
+
+Developer przypisuje kody, zatem do stworzonego zasobu(niby 201) moze dac 200 OK
+
+200 OK - zasób działa poprawnie i serwer zwrócił oczekiwaną odpowiedź
+201 Created - nowy zasób poprawnie stworzony
+204 No content - sukces, brak zawartosci (moze byc uzyty np przy delete)
+301 Moved permanently - strona internetowa lub dana zawartość została trwale zastąpiona innym zasobem 
+400 Bad request - niepoprawne żądanie, które zostało odrzucone przez serwer
+401 Unauthorized - request nie zawiera prawidłowego poświadczenia uwierzytelniającego
+403 Forbidden - zawartość, do której użytkownik nie posiada uprawnień dostępu
+404 Not found - żądany zasób nie istnieje
+405 Method Not allowed - znaleziony zasób istnieje, ale klient użył niedozowolonej metody HTTP
+408 Request timeout - serwer przekroczył limit czasu oczekiwania na pełne żądanie przeglądarki (np poprzez przeciazenie sieci)
+409 Conflict - request nie moze byc ukonczony z powodu konfliktu
+500 Internal server error - wewnętrzny błąd serwera, przez który zasób nie został dostarczony
+503 Service unavailable - żądanie nie może być aktualnie wykonane przez problem z hostem.
+
+przykład JSON path
+courses[2].details.site
+
+
+================POSTMAN===================
+Create Workspace - na początku
+Workspace- miejsce w ktorym utrzymyjemy wszystkie pliki (tcsy itd)
+Create Collection
+Collection - zawiera foldery i http requesty. Mozna uruchomić collection. Mozna zrobic Duplicate. Mozna export(zeby podzielić sie z innymi).
+
+HTTP method:
+PATCH - jak PUT, tyle ze updatuje część zasobu
+
+Co Validujemy:
+status code
+time
+size data
+response body
+cookies
+headers
+
+Dodajemy sobie request:
+np POST , Body->raw->JSON
+
+Mozna uruchomić całą kolekcję (podajemy iteracje, pliki(dane), delay)
+Mozna sobie wyexportowac cala kolekcję do json
+
+
+
+
+
+
+
+
+
+
+
+
