@@ -420,6 +420,438 @@ Mozna sobie wyexportowac cala kolekcję do json
 
 
 
+BACKLOG - spriorytetyzowana lista wszystkich zadan jakie powinny byc wykonany aby otrzymac produkt. zadania do zrobienia w przyszlych sprintach
+TABLICA - przegląd, znajdują sie tu zadania jakie sa do zrobienia w aktualnym sprintcie, wyswietlane sa Kolumny (ETAPY) zadan (np do zrobinia , w toku, gotowe etc)
+SCRUM to zwinne(AGILE) podejscie do tworzenia nowych produktów i usług. SCRUM opiera sie na malych przyrostach. DO projektu mozna przypisywac osoby i ich role. 
+ROLE: 
+Product owner - zarządza backlogiem, decyduje o kolejnosc wykonywanej pracy
+Dev team - implementacja przyrostów 
+Scrum master - odpowiedzialny za przestreganie procesu scrum,
+ 
+Zespół dostarcza kolejne wersje(przyrosty) działającego produktu w których cyklach zwanych SPRINTami(przewaznie 2-4 tyg).
+Planowanie SPRINTu- pierwsze spotkanie polegajace na planowaniu SPRINTu, wszystkie ROLE powinny brac udział
+Daily Scrum -  spotkanie devów, max 15 min
+Przegląd Sprintu - zespol scrumowy + interesariusze, odbywa sie po sprincie, przegląd co i jak zostało zrobione
+Retrospekcja Sprintu - wyciagniecie wnioskow na przyszlosc, co mozna zrobic lepiej
+
+TYPY ZGLOSZEN
+-Bug
+-Task - np zweryfikuj poprawność systemu rejestracji
+-Subtask - np zweryfikuj zabezpieczenia w systemie rejestracji (task powyzej)
+-Epic - duze zadanie, które bedzie wymagało podzielenia na mniejsze (Np remont łazienki, w ktorej sklad wchodzi ukladanie plytek itd), NIE JEST WIDOCZNE ANI W backlog, ANI na tablicy
+-User Stories - to te mniejsze zadania z Epic. User stories powinno miec DoD (Definition of Done)- czyli co powinno zostac zrobione, aby uznac User Stories za wykonane, często jest w postaci checklisty
+
+Do zgloszenia mozna przypisac osobę (ale nie trzeba)
+np EPIC:
+mozna dodac etykietę (taki tag)
+mozna dodac start date, deadline
+mozna dodac flage(important)
+mozna ustawić "połączenie zgłoszen" - blocks, clones, duplicates, relates to , is duplicated by ....... itd
+po stworzeniu mozna zmieniac status: do zrobienia, w trakcie
+
+np User Story
+mozna przypisac do konkretnego sprintu (jak nie, to wskoczy do backlog) 
+
+Przy wyszukiwaniu zgloszen mozna wygnerowac raport HTML(mozna tez ustawic wczesniej filtry).
+
+w zakładce KOD mozemy połączyć Jire z np GitHub,BitBucket itd.
+
+w zakładce STRONY PROJEKTÓW, mozna umieszczac jakies szablony, notatki ze spotkan, wymagania produktu itd
+
+w zakładce AUTOMATYZACJA mozna tworzyc nowe reguły jak np: Po ukonczeniu wszystkich zadan podrzednych -> przenies zadanie nadrzędne do ukonczonych
+
+w zakładce WYDANIA możemy określać wydania produktu (np 1.0.2) i potem do zgloszeń można dodawać wersję wydania.
+
+w zakładce PULPIT mozna stworzyc sobie pulpity :D Są tam jakies wykresy,statystyki, aktualne zadania, ostatnie aktywnosci
+
+
+PRZEPLYW PRACY(flow) - są tam rózne statusy i można je dodawać/edytować np.: TO DO , IN PROGRESS , VERIFICATION, TO DEPLOY, DONE
+wtedy w zgloszeniach pojawią nam sie różne statusy do ustawienia
+Mozna w przeplywie pracy dodawac reguły np: jak przechodzi VERIFICATION -> TO DEPLOY, to automatycznie do zgloszenia przypisywana jest konkretna osoba
+
+Można tworzyć nowe typy zgłoszeń.
+
+
+
+
+
+
+
+ISTQB
+
+Testujemy żeby obniżyć poziom ryzyka, żeby dopuścić produkt do odbioru, podnoszenie i zapewnienie jakości
+Testowanie pozwala otrzymać informacje o jakości produktu, określeniu ryzyka, budowa zaufania.
+
+Testowanie to nie jest (tylko) wykonanie testów – to tez wszystko to co jest przed i po.
+Testowane to też planowanie, nadzorowanie, ustalanie waruknków, projektowanie zadań testowych, itd, itp.
+
+Cele testowania:
+Zapobieganie defektom (np przeglady dokumentacji, zapieganie wprowadzeniu usterek do kodu)
+Znajdowanie usterek (zeby je naprawic)
+ocena jakości oprogramowania (zeby dac info interesariuszom o ryzyku)
+
+Testowanie gruntowne jest niewykonalne
+
+Weryfikacja, a walidacja - Weryfikacja to sprawdzanie poprawnosci wzgledem specyfikacji, a walidacja to sprawdzanie poprawnosci z oczekiwaniami klienta/usera.
+Poziom niezaleznosci: programista -> inny programista -> tester z tej samej firmy -> tester z innej firmy
+
+Podstawowy proces testowy:
+planowanie i nadzór nad testami
+analiza i projektowanie testów
+implementacja i wykonanie testów
+ocena kryteriów zakończenia i raportowanie
+czynności zamykające test
+
+
+
+Projekt testu - proces przekształcania celów w warunki/przypadki
+Podstawa testów - Dokumentacja, na podstawie której oparte są przypadki testowe
+Obiekt testów - to co testujemy
+Plan testów - opisuje zakres, harmonogram, kto bedzie testował(zasoby), środowisko testowe, kryteria wejscia/wyjscia
+Strategia testów - ogolne podejście do testowania. 
+Testalia: Wszystkie dokumenty i narzędzia wytworzone i używane podczas procesu testowania niezbędne do planowania, projektowania i wykonywania testów.
+
+Software Development Life Cycle (SDLC) - jest usystematyzowanym podejściem do tworzenia, rozwoju oraz wycofywania danego programowania.
+Analiza->Projektowanie->Implementacja->Testowanei->Wdrozenie->Utrzymanie
+
+Software Testing Life Cycle (STLC)
+Analiza wymagań->Planowanie testów->Pisanie TCsow->Przygotowanie środowiska->Wykonanie testow->Zamkniecie
+
+Modele wytwarzania oprogramowania:
+Model Kaskadowy(waterfall) (Planowanie->Analiza->Projektowanie->Implementacja->Testowanie->Pielegnacja)
+Model iteracyjno-przyrostowy (bazuje na podstawie koncepcji podziału całego przedsięwzięcia wytwórczego na krótsze cykle rozwojowe – ITERACJE. Każda iteracja reprezentuje mini-cykl wytwarzania)
+Model V (Do każdego poziomu wytwarzania, przypisane sa odpowiednie aktywnosci weryfikacji/testowania)  
+Poziomy np:
+-Testy Modułowe(jednostkowe) - unit tests, testujemy:moduły,programy,klasy (rzeczy które mozna testowac oddzielnie)
+-Testy Integracyjne (Testy integracyjne sprawdzają interfejsy pomiędzy modułami, interakcje z innymi częściami systemu)
+-Testy Systemowe (Testy systemowe zajmują się zachowaniem systemu/produktu)
+-Testy akceptacyjne (Testy akceptacyjne zwykle oceniają gotowość systemu do wdrożenia i użycia. Celem testów akceptacyjnych jest nabranie zaufania do systemu, jego części)
+
+Smoke Testy - Smoke to jak podlaczenie nowo stworzonego urzadzenia do pradu i sprawdzenie czy nie wydostaje się dym (czy w ogole krytyczne funkcje oprogramowania działają), sprawdzenie czy produkt nadaje się do testowania
+Sanity Testy - to juz bardziej szczegolowe testowanie niz Smoke, przeprowadzane np po wprowadzeniu poprawek i aktualizacji oprogramowania.
+
+Testy Alfa i Beta -to testy Akceptacyjne, Alfa to testy u producenta, ale nie przez zespol projektowy, Beta wykonywane są przez klientów lub potencjalnych klientów w ich własnych lokalizacjach.
+
+Typy testów:
+Funkcjonalne - testy tego "co" produkt "robi", a nie "jak"
+Niefukcjonalne  - testy np wydajnosciowe, obciążeniowe, niezawodności, przenaszalności
+Strukturalne - bialoskrzynkowe
+Związane ze zmianami - regresji i retesty
+
+Testy Czarnoskrzynkowe- oparte na specyfikacji testy zewnętrzne, bez znajomości wewnętrznej struktury modułu lub systemu. (Moze byc funkcjonalne i niefunkcjonalne)
+Testy Bialoskrzynkowe- testy oparte na analizie wewnętrznej struktury modułu lub systemu.
+Retest- test potwierdzajacy usuniecie usterki
+Regresja- testy po modyfikacjach, czy cos sie nie zepsulo w niezmienionej cześci oprogramowania
+Testowanie statyczne- bez uruchamiania programu (np przegląd dokumentacji), 
+Testowanie dynamizcne- z uruchamianiem programu
+Testowanie pielegnacyjne- testowanie zmian we wdrożonym systemie lub testowanie wpływu zmienionego środowiska na wdrożony system.
+Analiza statyczna- kod jest analizowany przez np program zewnetrzny, ale sam testowany program nie jest uruchamiany
+
+Usterki znalezione podczas przeglądów we wczesnych
+fazach produkcji oprogramowania (np. defekty znalezione w wymaganiach) często okazują
+się dużo tańsze do usunięcia niż te wykryte podczas wykonywania testów dynamicznych.
+
+Przegląd formalny - Przegląd charakteryzujący się udokumentowanymi procedurami i wymaganiami
+Przegląd nieformalny -  Przegląd, który nie jest oparty na formalnej (udokumentowanej) procedurze.
+Przejrzenie - prowadzone przez autora, kilka osób
+Przeglad techniczny - bez biznesu, eksperci 
+Inspekcja - obowiazkowo protokół, prowadzi moderator, nie autor
+
+Dokumentacja podstawy testów -> Warunki testowe -> Przypadki testowe -> Procedury testowe
+
+Testy oparte na doświadczeniu - wiedza o prawdopodobnych defektach, zgadywanie bledów
+Teksty eksploracyjne - wiadomo
+
+CZARNOSKRZYNKOWE
+Klasy równoważności - wejscia programu dzielona na grupy(powodujące podobne dzialanie programu) np 0-5 ma dziac sie to, 5-10 ma dziac sie tamto
+Analiza wartosci brzegowych - podajemy wartosci brzegowe jako input (granice klas rownowaznosci)
+Tablica decyzyjna - dostajemy tablicę i na jej podstawie testujemy
+Przejscia miedzy stanami - dostajemy diagram przejść stanów i na tej podstawie testujemy 
+W oparciu o przypadek uzycia - najbardziej prawdopodobne rzeczywiste uzycie 
+
+
+BIALOSKRZYNKOWE
+Pokrycie intrukcji- odsetek instrukcji wykonywalnych został przetestowany przez zestaw testów
+Pokrycie decyzji- jaki odsetek wyników decyzji (np. wyniku prawda lub fałsz instrukcji if) został przetestowany przez zestaw testów.
+Pokrycie warunkow- jaki odsetek warunków, jaki został sprawdzony przez zestaw testów. 100% pokrycia warunków wymaga, aby każdy pojedynczy warunek każdego wyrażenia decyzyjnego został przetestowany zarówno dla wartości Prawda jak i Fałsz. 
+LSKiS
+Przeplywy danych
+
+
+Warunki wejścia (warunki rozpoczęcia testów):
+Dostępność i gotowość środowiska testowego 
+gotowość narzędzi testowych w środowisku 
+dostępność testowalnego kodu i danych testowych
+
+Warunki Wyjścia (zakonczenia testow)
+Estymacja gestosci bledow lub miar niezawodnosci
+Istniejące ryzyko
+Harmonogram
+
+
+Ryzyko projektowe –ryzyko otaczające zdolność projektu do osiągnięcia postawionych przez nim celów (techniczne, z dostawcami, itp, opoznienia)
+Ryzyko produktowe  - ryzyko awarii w oprogramowaniu, stanowiące ryzyko dla jakości 
+
+Macierz Sledzenia - Dzięki macierzy śledzenia możliwe jest określenie, w jakim stopniu stawiane wymagania zostały spełnione.(Jakie wymagania zostały przetestowane przez jakie TCsy)
+
+Przykład Narzedzi do testowania wydajności - Apache JMeter.
+
+Jak programista powie "u mnie działa" - sprawdzamy czy taka sama wersja oprogramowania, pokazujemy filmik 
+Testowanie Ad-hoc - tester próbuje złamać system, losowo wypróbowując jego funkcjonalność.
+
+Bug leakage/bug release - kiedy uzytkownik lub klient odkrywa ze bug istnieje
+
+Data Driven Testing - input i expected result umieszczone np w Excelu, i automat wykonuje wszystkie tcsy
+Test Driven Development - przygotowanie test casów przed napisaniem kodu aplikacji.
+
+
+
+
+--------------------------------
+json server - bardzo szybko testowe api sie stawia
+
+co velidujemy w POSTMANie:
+Status code
+headers
+cookies
+response time
+response body
+JSON schema - strukture json, sprawdzamy informacje o typach danych (czy string, czy integer itd), mozna generowac(json schema generator)
+
+pm - biblioteka w postmanie do validacji:
+Jesli w ramach jednego pm.test mamy kilka expect , to wystarczy ze wywali sie choc jeden expect, to caly test jest na fail
+
+
+Normal function
+pm.test("Test name, Status code is 200", function () {
+  pm.response.to.have.status(200);
+});
+
+Arrow function 
+pm.test("Test name,Status code is 200", () =>
+{
+  pm.response.to.have.status(200);
+});
+
+pm.test("Jeden z wielu status code", ()=>
+{
+	pm.expect(pm.response.code).to.be.oneOf([200,201]);
+});
+
+pm.test("Sprawdzamy string", ()=>
+{
+	pm.response.to.have.status("Created");
+});
+
+SPRAWDZANIE HEADERSÓW
+pm.test("Sprawdzamy Content-Type present czy nie" , ()=>
+{
+	pm.response.to.have.headers("Content-Type");
+});
+
+pm.test("Sprawdzamy Content-Type czy wartosc prawidlowa" , ()=>
+{
+	pm.expect(pm.response.headers.get('Content-Type')).to.eql('application/json; charset=utf-8');
+});
+
+SPRAWDZANIE COOKIES
+pm.test("Czy w cookies  jest "language" present" , ()=>
+{
+	pm.expect(pm.cookies.has('language')).to.be.true;
+});
+
+pm.test("Czy cookies language present" , ()=>
+{
+	pm.expect(pm.cookies.get('language')).to.eql('en-gb');
+});
+
+SPRAWDZANIE CZASU
+pm.test("time less than 200ms" , ()=>
+{
+	pm.expect(pm.response.responseTime).to.be.below(200);
+});
+
+SPRAWDZNIE RESPONSE BODY
+const jsonData = pm.response.json();              //zmienna globalna, bo nie w srodku funkcji
+pm.test("Test data types of the response", ()=>
+{
+pm.expect(jsonData).to.be.an("object");
+pm.expect(jsonData.name).to.be.a("string");
+pm.expect(jsonData.id).to.be.a("number");
+pm.expect(jsonData.courses).to.be.an("array");
+});
+
+pm.test("Test array properties", ()=>
+{
+pm.expect(jsonData.courses).to.include("Java"); //cos w stylu contains
+pm.expect(jsonData.courses).to.have.members(["Java", "Selenium"]); // musi posiadac tych kilka konkretnych
+});
+
+pm.test("konkretne pola", ()=>
+{
+var jsonData = pm.response.json(); 		//zmienna lokalna
+pm.expect(jsonData.courses[1]).to.eql("Java");
+});
+
+PRE-request script - scrypty uruchamiane przed wykonaniem requesta
+Pre-request script ---> request ---> response ---> tests
+
+cel: np zeby dynamicznie wygenerowac sobie dane do POST
+
+3 levele prerequest scipt i 3 levele tests:
+collection
+folder
+request
+
+collection pre_req_script -> folder pre_req_script -> requst pre_req_script -> REQUEST -> RESPONSE -> collection test -> folder test -> request test
+
+
+Variables in POSTMAN - zeby przechowywac dane, zeby nie duplikowac danych
+
+Scope of variables:
+Global - zmienna dostepna wszedzie w calym workspace(kolekcje, foldery, requesty.... )
+Collection - zmienna dostępna w konkretnym collection
+Environment - zmienne dla roznych działów np: DEV, QA, PROD.  np zmienan URL bedzie dla kazdego environment inna. ACCESS tez globalny
+Local
+data
+
+{{url_global}} <-- syntax
+global - po prawej na gorze ikonka (initial i current dajemy takie samo)
+
+collection - 3 kropeczki w collection i edit -> variables
+
+environment - tworzymy tak jak global, ale zeby uzywac zmiennych z environment, musimy przelaczyc sie na konkretne środowisko(environment),
+przed stworzeniem zmiennej environment, trzeba stworzyc sam environment
+
+local - zmienna tworzona w pre_req_script, access tylko w tym konkretnym requescie
+pm.variables.set("url_local","https://reqres.in");
+i teraz mozemy uzywac url_local tak samo(ten sam syntax)
+
+data- w plikach zewnetrznych
+
+------Zmienne global mozna stworzyć poprzez pre_req_script, po wykonaniu requesta, taka zmienna normalnie dodaje sie do zmiennych globalnych
+pm.globals.set("user_id_global","323");
+------podobnie ze zmiennymi environment
+pm.environment.set("user_id_qa_env","2"); <- tworzy sie w takim environmentcie na jaki jestesmy przelaczeni
+------podobnie ze zmiennymi collection
+pm.collectionVariables.set("user_id_collect","2"); <-- tworzy sie w konkretnym collection
+
+usuwanie zmiennych np w zakładce tests ( czyli po wykonaniu requesta i otrzymaniu response):
+pm.globals.unset("user_id_global")
+
+pobieranie zmiennych np w zakladce tests:
+console.log((pm.globals.get("user_id_global"));
+
+
+
+####################API chaining - dane z response(z API1) są uzywane do nastepnego requesta(z API2)############### do testów: https://gorest.co.in
+
+//utworzenie zmiennej z responsebody
+var jsonData= JSON.parse(responseBody);
+pm.environment.set("id", jsonData.id);
+
+w requescie jest zakladka authorization , sluzy do przekazywania kluczy (chyba w headerze pozniej)
+np: API key, Bearer Token, OAuth 1.0, OAuth 2.0, AWS signature itd....
+Mozna zrobic tez authorization na poziomie collection np, wtedy bedzie dla calego collection, wszystkich requestów@!! (potem w samuch requestach bierzemy auth -> inherit)
+Można tez zrobic variable collection i wtedy sobie w tym requescie ktorym chcemy uzywac {{nazwa_tokena}}
+
+
+
+w pre req script: <- generowanie randomowego emaila i utworzenie zmiennej
+var random = Math.random().toString(36).substring(2);
+var useremail ="jim"+random+"@gmail.com";
+pm.environment.set("useremail_env", useremail")
+
+potem juz w body requescie daje
+"email":"{{useremail_env}}",
+
+teraz z id z reponse tworze zmienna:
+var jsonData=JSON.parse(responseBody);
+pm.environment.set("userid_env", jsonData.id);
+
+
+teraz sprawdzam czy dane z create user zgadzaja sie z getuser
+pm.tes("values of json fields",()=>{
+var jsonData=pm.response.json();
+var userIDfromResponse = pm.globals.get("userid_env")
+
+pm.expect(jsonData.id).to.eql(userIDfromResponse);
+pm.expect(jsonData.email).to.eql(pm.environment.get("useremail_env"));
+});
+
+po requescie warto pousuwac wszystkie powstane zmienne environment, usuwamy je w test w ostatnim requescie:
+pm.environment.unset("useremail_env");
+pm.environment.unset("userid_env");
+
+jak uruchamiamy requesty z calej collection to warto dac delay(np 2 sekundy)
+
+
+Jak robic request pobierajac dane z excela(.cvs rozszerzenie) lub JSON:
+robimy run collection
+iterations - ile razy mamy uruchomić całą collection
+ładujemy plik(np excel 2 kolumny z tytulami: BookID i CustomerName i pod spodem dane)
+w saym requescie jak podajemy dane to muszą się nazywac tak samo jak kolumma
+np w POST
+{
+"idbook":"{{BookID}}",
+"customer":{{CustomerName}}"
+}
+
+
+
+############### FILE UPLOAD API
+
+request (np POST) ->body -> form-data -> tworzymy zmienna "file" i zmieniamy na typ file -> wczytujemy plik
+jeżeli ustawimy typ "text" to podajemy sciezke do pliku
+
+te pliki^ bedą szły w header
+
+################ AUTHENTICATION
+
+API Key - wygenerowanie klucza
+Bearer Token - Token uzywany do authentyfikacji
+Basic Auth - username i password (nie bedzie zaszyfrowane)
+Digest Auth - username i password (zaszyfrowane bedzie)
+OAuth 1.0 - 3rd party auth
+OAuth 2.0 - 3rd party auth , 2.0 nowszy 
+Hawk Authentication
+AWS Signature
+NTLM Authentication
+Akamal EdgeGrid - te 4 ostatnie to zaawansowane
+
+BASIC i DIGEST jak dziala - requestujemy o resourca, server prosi o username i password, wysylamy username i password , otrzymujemy requestowanego resourca
+ 
+ box "Yes, disable retrying the request" odznaczyć
+
+API key - geenrujemy sobie w swoim API , w requescie w authorization dajemy API key, Key - [nazwa klucza podana przez api] , Value - sam klucz, Add to- Query parameters
+
+OAuth2 na przykladzie github:
+Request GET z podanym client_id(wygenerowanym po zalogowaniu do github) , (wklejajac URI requesta w przegladarce dostaniemy code w linku - ?? )
+potem wysylamy POST z clinet_id(^^), code z pop. response, secret_id(tez wygenerowane na github po zalogowaniu), response ma access_token 
+
+Swagger- Interaktywna dokumentacja, są tam możliwe API requesty które są opisne, mozna też kliknąć Try it out, i uruchomic request (normalnie dostajemy response), 
+w requestach normalnie mozemy podawac parametry
+exploring, not testing purpose, nie ma validations w swagger
+
+cURL - client URL, mozna przez cURL wysylac requesty w jednej linijce np:
+	curl -X DELETE http://localhost:8082/spring-rest/foos/9
+Swagger po wykonaniu requesta wyswietla gotowy cURL
+w Postmanie mozemy zimportowac cURL: Import -> Raw text -> wklejamy curl
+
+
+W postman mozemy kliknac na kolekcję i view documentation
+majac dokumentację mozemy klikanc publish, tam bedzie URL 
+w taki URL mozemy sobie wejsc i kliknac RUN IN POSTMAN (odpala sie wtedy import collection)
+
+respponses w XML mozemy sobie skonwertowac do json:
+var jsonData = xml2Json(responseBody);
+
+jsonpathfinder.com
+W pre-req script i w test uzywamy pm.enviroment itd, a w body uzywamy {{asdasd}}
+
+jezeli np potrzebujemy podac api key (token jakis) i dodamy go w authorization tabie(wybrac opcje query param) to podobno sam automatycznie sie doda w params i podobno tez na odwrot(DO SPRAWDZENIA)
+
+niektore api wspieraja body form-data, niektóre json itd...
 
 
 
